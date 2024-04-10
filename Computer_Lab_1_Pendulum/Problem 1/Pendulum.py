@@ -12,7 +12,7 @@ dt2 = dt/2            # half time step
 t = 0  	              # start time 
 
 # initial conditions
-theta = np.pi/2.   # initial angular position 
+theta = np.pi/2   # initial angular position 
 p = 0.                 # initial angular velocity
 
 # model parameters (set m=g=L=1)
@@ -24,6 +24,16 @@ omega02 = omega0**2
 
 position = []         # list to store angular position
 momentum = []         # list to store angular momentum
+
+#-----------------------------------
+
+theta_previous = theta  # Store the previous theta to compare changes
+theta_increasing = False  # Flag to track when theta starts increasing
+half_period_detected = False  # Flag to ensure the half-period is only recorded once
+half_period_time = 0  # Time at which the half-period occurs
+full_periods = []  # List to store full period times for different initial conditions
+
+#-----------------------------------
 
 # set up the figure and the plot element to animate
 fig = plt.figure(figsize=(10,14),dpi=80)
@@ -56,22 +66,31 @@ def rk4(x, v, t):
     return x, v, t
 
 def step():
-    global xx, yy, t, p, theta, H, time, ene, position, momentum
+    global xx, yy, t, p, theta, H, time, ene, position, momentum, theta_previous, theta_increasing, half_period_detected, half_period_time, full_periods
 
     theta, p, t = rk4(theta, p, t)
 
-    # energy
-    #H = 0.5*p**2 + 1 - np.cos(theta)
+    # Detect change from decreasing to increasing theta
+    if not theta_increasing and theta > theta_previous:
+        if not half_period_detected:  # Ensure we only record the first occurrence
+            half_period_time = t
+            half_period_detected = True
+            full_period = 2 * half_period_time  # Calculate full period
+            full_periods.append(full_period)  # Store the calculated full period
 
-    # Position of pendulum
+    # Update the position of the pendulum
     xx = (0, np.sin(theta))
     yy = (0, -np.cos(theta))
 
     position.append(theta)
     momentum.append(p)
 
-    if theta>np.pi: theta -= 2*np.pi
-    if theta<-np.pi: theta += 2*np.pi
+    # Ensuring theta is within the range [-pi, pi]
+    if theta > np.pi: theta -= 2 * np.pi
+    if theta < -np.pi: theta += 2 * np.pi
+
+    # Update previous_theta for the next step
+    theta_previous = theta
 
 # Initialization function
 def init():
@@ -79,14 +98,18 @@ def init():
     phaseportrait.set_data([], [])
     return pendulum, phaseportrait, 
 
+
 # Animation function
 def animate(i):
     step()
     pendulum.set_data(xx, yy)
     phaseportrait.set_data(position, momentum)
+    print(theta)
+    print (full_periods)
     return pendulum, phaseportrait, 
 
 anim = animation.FuncAnimation(fig, animate, init_func=init,
-                                frames=600, interval=1, blit=True, repeat=True)
+                                frames=1000, interval=1, blit=True, repeat=True)
 
 plt.show()
+
