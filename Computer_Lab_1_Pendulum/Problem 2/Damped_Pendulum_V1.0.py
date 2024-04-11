@@ -132,6 +132,8 @@ for i in range(antalSvängningar):
   while True:
     p_prev = p
     
+    # 1.38 for tau
+    
     theta, p, t = rk4(theta, p, t)
     # energy
     #H = 0.5*p**2 + 1 - np.cos(theta)

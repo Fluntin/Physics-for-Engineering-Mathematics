@@ -5,7 +5,7 @@ import scipy as sc
 # Constants
 num_points = 100  # Number of points to simulate
 angular_step = np.pi / (2 * num_points)  # Step size for the initial angular position
-time_step = 0.005  # Time step for simulation
+time_step = 0.01  # Time step for simulation
 half_time_step = time_step / 2  # Half of the time step
 
 # Arrays to store results

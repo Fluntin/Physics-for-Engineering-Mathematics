@@ -8,15 +8,15 @@ dt2 = dt/2            # half time step
 t = 0  	              # start time 
 
 # initial conditions
-theta = np.pi/2.   # initial angular position 
+theta = 0.   # initial angular position 
 p = 0.              # initial angular velocity
 
 # model parameters (set m=g=L=1)
 omega0 = 1           # natural frequency
 omega02 = omega0**2       
-#gamma = 3/8          # damping coefficient
-#omega = 2/3          # drive frequency
-#A = 1.0              # amplitude of drive force
+gamma = 3/8          # damping coefficient
+omega = 2/3          # drive frequency
+A = 1.0              # amplitude of drive force
 
 position = []         # list to store angular position
 momentum = []         # list to store angular momentum
@@ -33,8 +33,8 @@ ax2.set_ylabel(r'p')
 
 def f(theta, p, t):
     accel = -omega02*np.sin(theta) # pendulum
-    #accel += -gamma*p              # damping  
-    #accel += A*np.cos(omega*t)     # drive force
+    accel += -gamma*p              # damping  
+    accel += A*np.cos(omega*t)     # drive force
     return accel
 
 def rk4(x, v, t):
