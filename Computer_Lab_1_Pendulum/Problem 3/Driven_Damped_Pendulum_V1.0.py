@@ -72,6 +72,8 @@ for amplitude in drive_force_amplitudes:
     drive_amplitude = amplitude
     amplitude_at_steady_state.append(simulation_step(current_time, initial_angular_velocity, initial_angular_position))
 
+print("Amplitude at Steady State:", amplitude_at_steady_state)
+print("Amplitude (A):", drive_force_amplitudes)
 # Plot results
 plt.figure(figsize=(8, 6))  # Adjust figure size
 plt.scatter(drive_force_amplitudes, amplitude_at_steady_state, color='blue', marker='o', label='Data')  # Customize scatter plot
