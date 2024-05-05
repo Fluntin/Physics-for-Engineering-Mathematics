@@ -59,7 +59,7 @@ plt.figure(figsize=(10, 6))  # Set the figure size for better detail
 plt.plot(screen_positions, intensities)
 plt.xlabel('Position on screen (mm)')
 plt.ylabel('Intensity')
-plt.title(f"Omega = {omega_values[index]}")
+plt.title(f"Omega = 3")
 
 plt.style.use('seaborn-darkgrid')  # Consistent style with previous plots
 plt.figure(figsize=(10, 6))  # Set the figure size for better detail

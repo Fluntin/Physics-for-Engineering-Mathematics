@@ -56,7 +56,7 @@ plt.style.use('seaborn-darkgrid')  # Consistent style with previous plots
 plt.figure(figsize=(10, 6))  # Set the figure size for better detail
 plt.scatter(intensity_maxima_positions[:maxima_count, 0], intensity_maxima_positions[:maxima_count, 1], color='red', marker='o', label='Maxima Positions')  # Red color for maxima points
 plt.plot(screen_positions, intensities, color='blue', linewidth=2, linestyle='-', label='Intensity Curve')  # Blue color for intensity curve
-plt.xlabel('Position (m)', fontsize=14)  # Label for x-axis
+plt.xlabel('x', fontsize=14)  # Label for x-axis
 plt.ylabel('Intensity', fontsize=14)  # Label for y-axis
 plt.title('Intensity Distribution on Detector Screen', fontsize=16)  # Title for the plot
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, color='gray')  # Grid lines

@@ -1,4 +1,3 @@
-
 # MW 2023-03-20
 # Python calculation of wave interference
 
@@ -7,7 +6,7 @@ import matplotlib.pyplot as plt
 
 wavelength = 5.0
 k = 2*np.pi/wavelength
-separation = 20.0 # separation of sources
+separation = 75.0 # separation of sources
 side = 100.0 # sidelength
 points = 500 # number of grid points along each side
 spacing = side/points 
