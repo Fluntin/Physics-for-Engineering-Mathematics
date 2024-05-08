@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-# Python simulation of a partiocle in a 1d infinite box potential
-# Integrate time independent SE using the Verlet method
-# Boundary conditions are found by shooting
-# MW 220513
-
 from pylab import *
 import numpy as np
 import matplotlib.pyplot as plt

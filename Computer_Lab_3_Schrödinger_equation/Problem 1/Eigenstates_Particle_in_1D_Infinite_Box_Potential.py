@@ -1,55 +1,59 @@
-# -*- coding: utf-8 -*-
-# Python simulation of a particle in a 1D infinite box potential
-# Integrate time-independent Schrödinger equation using the Verlet method
-# Boundary conditions are found by shooting
-# MW 220513
-
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Define the potential energy function for a particle in an infinite box
+# Potential energy function for an infinite box, V(x) = 0 inside the box
 def V(x):
-    return 0.0  # Potential inside the box is zero
-
-# Constants
-E = 0.5 * np.pi**2  # Energy, set to the ground state energy for n=1
+    return 0.0
 
 # Parameters
-N = 10000  # Number of mesh points, increased for better accuracy
-dx = 1 / N  # Step length
-dx2 = dx**2  # Step length squared
+Ns = [10, 100, 1000, 10000]
+E = 0.5 * np.pi**2  # Trial energy
 
-# Initial conditions
-x = 0  # Initial position
-psi = 0  # Wave function at initial position, psi(0) = 0 (boundary condition)
-dpsi = 1  # Derivative of wave function at initial position
+# Storing results
+deltas = []
+ns = []
 
-# Lists to store position and wave function values for plotting
-x_tab = [x]
-psi_tab = [psi]
+# Run simulation for each N
+for N in Ns:
+    dx = 1 / N
+    dx2 = dx**2
 
-# Integrate using the modified Verlet method
-for i in range(N):
-    d2psi = 2 * (V(x) - E) * psi
-    psi_new = psi + dpsi * dx + 0.5 * d2psi * dx2
-    d2psi_new = 2 * (V(x + dx) - E) * psi_new
-    dpsi += 0.5 * (d2psi + d2psi_new) * dx
-    psi = psi_new
-    x += dx
-    x_tab.append(x)
-    psi_tab.append(psi)
+    # Initial conditions
+    x = 0
+    psi = 0
+    dpsi = 1
+    psi_end = 0
 
-# Output the final value of psi to check the boundary condition at x = 1
-print(f'E = {E}, psi(x = 1) = {psi}')
+    # Numerical integration using Euler's method
+    for i in range(N):
+        d2psi = 2 * (V(x) - E) * psi
+        d2psinew = 2 * (V(x + dx) - E) * psi
+        psi += dpsi * dx + 0.5 * d2psi * dx2
+        dpsi += 0.5 * (d2psi + d2psinew) * dx
+        x += dx
+        if i == N-1:  # Storing the final value
+            psi_end = abs(psi)
 
-# Plotting the wave function
-plt.figure(figsize=(8, 6))
-plt.plot(x_tab, psi_tab, label='Wave function $\psi(x)$', color='red')
-plt.xlabel('x')
-plt.ylabel('$\psi(x)$')
-plt.title('Wave Function $\psi(x)$ for a Particle in a 1D Infinite Box')
-plt.grid(True)
+    # Store delta and N for plotting
+    deltas.append(psi_end)
+    ns.append(N)
+
+# Plot configuration
+plt.figure(figsize=(10, 6))
+plt.loglog(ns, deltas, 'o-', color='blue', linewidth=2, markersize=8, markerfacecolor='orange', label='Simulation Data')
+plt.xlabel('Number of points N', fontsize=14, fontweight='bold')
+plt.ylabel('Error $|\psi(1)|$', fontsize=14, fontweight='bold')
+plt.title('Error Scaling with Mesh Size in Numerical Integration', fontsize=16, fontweight='bold')
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, color='grey')
 plt.legend()
+
+# Fit a line to the log-log data to illustrate scaling law
+coeffs = np.polyfit(np.log(ns), np.log(deltas), 1)
+fit_line = np.exp(coeffs[1]) * np.power(ns, coeffs[0])
+plt.loglog(ns, fit_line, 'r--', linewidth=2, label=f'Fit Line: slope={coeffs[0]:.2f}')
+plt.legend()
+
+# Display the plot with enhanced aesthetics
 plt.show()
 
 
