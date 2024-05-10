@@ -49,5 +49,3 @@ plt.xlabel('x')
 plt.ylabel('$\psi$')
 #plt.savefig('psi.pdf')
 plt.show()
-
-
