@@ -73,5 +73,5 @@ plt.loglog(ns, fit_line, 'r--', linewidth=2, label=f'Fit Line: slope={coeffs[0]:
 plt.legend()
 plt.show()
 
-
-
+print(f"Scaling law: Error ~ N^{coeffs[0]:.2f}")
+print(f"Expected scaling law: Error ~ N^-2")
