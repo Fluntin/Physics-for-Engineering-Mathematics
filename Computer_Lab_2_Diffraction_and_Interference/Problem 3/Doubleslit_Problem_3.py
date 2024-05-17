@@ -7,7 +7,7 @@ wave_number = 2 * np.pi / wavelength_mm  # Wave number calculation
 
 # Geometry parameters
 distance_to_screen_mm = 2000  # Distance to the detector screen in mm
-screen_width_mm = 500         # Width of the detector screen in mm
+screen_width_mm = 500 * 7.5        # Width of the detector screen in mm
 num_screen_pixels = 1000      # Number of pixels on the detector screen
 
 # Initial slit width for different N (number of sources)
@@ -79,4 +79,3 @@ plt.tick_params(axis='both', which='major', labelsize=12)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5)
 
 plt.show()
-
